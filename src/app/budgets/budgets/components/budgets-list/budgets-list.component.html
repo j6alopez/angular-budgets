@@ -1,1 +1,14 @@
-<p>budgets-list works!</p>
+@for (budget of budgets; track $index) {
+<div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
+    <div class="col-6">
+        <h5> {{budget.budgetType}} </h5>
+        <p> {{ budget.description}}</p>
+    </div>
+    <div class="col-4">
+        <h2> {{ budget.price | currency:'EUR':'symbol-narrow':'1.0-1' }} </h2>
+    </div>
+    <div class="col-2">
+        <input type="checkbox">
+    </div>
+</div>
+}
