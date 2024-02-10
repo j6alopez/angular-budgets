@@ -1,7 +1,7 @@
-@for (budget of budgets; track $index) {
-    <div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
+@for (budget of budgets; track $index; let last = $last) {
+    <form class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
         <div class="col-6">
-            <h4> {{budget.budgetType}} </h4>
+            <h4> {{ budget.budgetType }} </h4>
             <p> {{ budget.description}}</p>
         </div>
         <div class="col-4">
@@ -10,5 +10,8 @@
         <div class="col-2">
             <input type="checkbox">
         </div>
-    </div>
+        @if (last) {
+            <budgets-panel></budgets-panel>
+        }
+    </form>
 }

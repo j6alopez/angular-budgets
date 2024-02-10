@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import { Budget } from '../../interfaces/budget';
 import { CommonModule } from '@angular/common';
+import { PanelComponent } from '../panel/panel.component';
 
 @Component({
   selector: 'budgets-list',
 standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    PanelComponent
+  ],
   templateUrl: './budgets-list.component.html',
   styleUrl: './budgets-list.component.scss'
 })

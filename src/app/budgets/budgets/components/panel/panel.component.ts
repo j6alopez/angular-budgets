@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-panel',
+  selector: 'budgets-panel',
   standalone: true,
   imports: [],
   templateUrl: './panel.component.html',
