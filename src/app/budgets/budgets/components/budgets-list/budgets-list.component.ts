@@ -9,7 +9,6 @@ import { PanelComponent } from '../panel/panel.component';
 standalone: true,
   imports: [
     CommonModule,
-    PanelComponent
   ],
   templateUrl: './budgets-list.component.html',
   styleUrl: './budgets-list.component.scss'

@@ -3,15 +3,38 @@
         <h5>Frontender.itacademy</h5>
     </div>
     <welcome></welcome>
-    <section>
-        <budgets-list></budgets-list>
+    <section formArrayName="servicesAdded">
+        @for (budget of budgets; track $index; let last = $last;) {
+            <form class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
+                <div class="col-6">
+                    <h4> {{ budget.budgetType }} </h4>
+                    <p> {{ budget.description}}</p>
+                </div>
+                <div class="col-4">
+                    <h2> {{ budget.cost | currency:'EUR':'symbol-narrow':'1.0-0' }} </h2>
+                </div>  
+                <div class="col-2 d-flex justify-content-end ">
+                    <div>
+                        <input type="checkbox" #checkbox
+                            (click)="onCheckSelection($index, checkbox.checked)"
+                        >
+                        <label class="ms-3 add-label" for="add-service"> Afegir</label>
+                    </div>
+                </div>  
+                @if (last && checkbox.checked) {
+                    <budgets-panel (settings)="handleSettingsChanged($index, $event)" ></budgets-panel>
+                }
+            </form>
+        }
+        
         <div class="row w-75 justify-content-end mx-auto mt-4 ">
             <div class="col-9 col-sm-7 d-flex justify-content-end ">
                 <h4>Preu pressupostat:</h4>
             </div>
             <div class="col-3 col-sm-2 d-flex justify-content-end ">
-                <h4>0€</h4>
+                <h4>{{ totalCost | currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
             </div>
         </div>
     </section>
 </div>
+

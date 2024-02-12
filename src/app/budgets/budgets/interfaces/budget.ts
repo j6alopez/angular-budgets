@@ -1,6 +1,7 @@
-type BudegetType = 'Seo' |'Adds' | 'Web';
+type BudgetType = 'Seo' |'Adds' | 'Web';
 export interface Budget {
-    budgetType: BudegetType;
+    budgetType: BudgetType;
     description: string;
-    price: number;
+    cost: number;
+    additionalCost?: number;
 }
