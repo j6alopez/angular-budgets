@@ -7,7 +7,7 @@
             <button type="button" 
                 class=" btn-light fa-solid fa-minus"
                 (click)="setPages(-1)"
-                [disabled]="pages === 0"
+                [disabled]="isMinusPagesDisabled()"
             >
             </button>
             <input type="text" inputmode="numeric"
@@ -26,7 +26,7 @@
         <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <button type="button" class="btn-light fa-solid fa-minus"
                 (click)="setLanguages(-1)"
-                [disabled]="languages === 1"
+                [disabled]="isMinusLanguagesDisabled()"
             ></button>
             <input type="text" inputmode="numeric"
                 class="form-control"
