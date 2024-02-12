@@ -2,7 +2,7 @@
     <welcome></welcome>
     <form [formGroup]="form" autocomplete="off">
         @for (budget of budgets; track $index; let last = $last;) {
-            <form class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
+            <div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
                 <div class="col-lg-6 col-md-6 col-12">
                     <h4> {{ budget.budgetType }} </h4>
                     <p> {{ budget.description}}</p>
@@ -12,9 +12,9 @@
                 </div>  
                 <div class="col-lg-2 col-md-3 col-6 d-flex justify-content-end ">
                     <div> 
-                        <input class="form-check-input"
+                        <input [formControlName]="$index"
+                            class="form-check-input"
                             type="checkbox"
-                            [formControlName]="$index"
                         >
                         <label class="ms-3 add-label" for="add-service"> Afegir</label>
                     </div>
@@ -22,16 +22,15 @@
                 @if (last && isChecked($index)) {
                     <budgets-panel (settings)="handleSettingsChanged($index, $event)" ></budgets-panel>
                 }
-            </form>
+            </div>
         }
-        
-        <div class="row w-75 justify-content-end mx-auto mt-4 ">
-            <div class="col-9 col-sm-7 d-flex justify-content-end ">
-                <h4>Preu pressupostat:</h4>
-            </div>
-            <div class="col-3 col-sm-2 d-flex justify-content-end ">
-                <h4>{{ totalCost | currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
-            </div>
-        </div>
     </form>
+    <div class="row w-75 justify-content-end mx-auto mt-4 ">
+        <div class="col-9 col-sm-7 d-flex justify-content-end ">
+            <h4>Preu pressupostat:</h4>
+        </div>
+        <div class="col-3 col-sm-2 d-flex justify-content-end ">
+            <h4>{{ totalCost | currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
+        </div>
+    </div>
 </div>
