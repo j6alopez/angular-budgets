@@ -5,7 +5,7 @@
         </div>
         <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <button type="button" 
-                class=" btn-light fa-solid fa-minus"
+                class="add-remove fa-solid fa-minus"
                 (click)="setPages(-1)"
                 [disabled]="isMinusPagesDisabled()"
             >
@@ -14,17 +14,18 @@
                 class="form-control"
                 formControlName="pages"
             >
-            <button type="button" class="fa-solid fa-plus"
+            <button type="button" class="add-remove fa-solid fa-plus"
                 (click)="setPages(+1)"
             ></button>
         </div>
     </div>
     <div class="row d-flex justify-content-end mt-3">
         <div class="col-12 col-md-8 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
+            <button type="button" class="btn bi bi-info-circle"></button>
             <span>Número de llenguatges:</span>
         </div>
         <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
-            <button type="button" class="btn-light fa-solid fa-minus"
+            <button type="button" class="add-remove fa-solid fa-minus"
                 (click)="setLanguages(-1)"
                 [disabled]="isMinusLanguagesDisabled()"
             ></button>
@@ -33,7 +34,7 @@
                 formControlName="languages"
             >
             <button type="button" 
-                class="fa-solid fa-plus"
+                class=" add-remove fa-solid fa-plus"
                 (click)="setLanguages(+1)"
             >
             </button>

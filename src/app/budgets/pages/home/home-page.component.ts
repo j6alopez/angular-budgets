@@ -4,12 +4,13 @@ import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular
 import { Budget } from '../../budgets/interfaces/budget';
 import { BudgetService } from '../../budgets/services/budget.service';
 import { BudgetsListComponent } from '../../budgets/components/budgets-list/budgets-list.component';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { PanelComponent } from '../../budgets/components/panel/panel.component';
 import { Settings } from '../../budgets/interfaces/settings';
 import { WelcomeComponent } from '../../../shared/components/welcome/welcome.component';
 import { Subscription } from 'rxjs';
+import { ModalService } from '../../../shared/modal.service';
 
 @Component({
   selector: 'budgets-home',
@@ -21,6 +22,7 @@ import { Subscription } from 'rxjs';
     PanelComponent,
     ReactiveFormsModule,
     WelcomeComponent,
+    FormsModule
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
@@ -36,10 +38,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public form: FormGroup = this.fb.group({
   });
 
+  public bodyText = 'This text can be updated in modal 1';
   
   constructor(
     private budgetService: BudgetService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public modalService: ModalService
   ) {}
 
   ngOnInit(): void {
