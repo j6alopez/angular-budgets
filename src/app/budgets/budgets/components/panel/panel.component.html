@@ -1,9 +1,9 @@
 <form [formGroup]="form">
-    <div class="row d-flex justify-content-end">
-        <div class="col-12 col-md-8 col-sm-7  d-flex justify-content-end align-items-center ">
+    <div class="row d-flex justify-content-end mt-sm-1">
+        <div class="col-12 col-md-8 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center my-1 ">
             <span>Número de pàgines:</span>
         </div>
-        <div class="col-12 col-sm-4 d-flex justify-content-end align-items-center">
+        <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <button type="button" 
                 class=" btn-light fa-solid fa-minus"
                 (click)="setPages(-1)"
@@ -20,10 +20,10 @@
         </div>
     </div>
     <div class="row d-flex justify-content-end mt-3">
-        <div class="col-12 col-sm-7 col-md-8 d-flex justify-content-end align-items-center ">
+        <div class="col-12 col-md-8 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <span>Número de llenguatges:</span>
         </div>
-        <div class="col-12 col-sm-4 d-flex justify-content-end align-items-center">
+        <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <button type="button" class="btn-light fa-solid fa-minus"
                 (click)="setLanguages(-1)"
                 [disabled]="languages === 1"

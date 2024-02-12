@@ -1,19 +1,16 @@
 <div class="container">
-    <div class="row my-3">
-        <h5>Frontender.itacademy</h5>
-    </div>
     <welcome></welcome>
     <form [formGroup]="form" autocomplete="off">
         @for (budget of budgets; track $index; let last = $last;) {
             <form class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
-                <div class="col-6">
+                <div class="col-lg-6 col-md-6 col-12">
                     <h4> {{ budget.budgetType }} </h4>
                     <p> {{ budget.description}}</p>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-4 col-md-3 col-6">
                     <h2> {{ budget.cost | currency:'EUR':'symbol-narrow':'1.0-0' }} </h2>
                 </div>  
-                <div class="col-2 d-flex justify-content-end ">
+                <div class="col-lg-2 col-md-3 col-6 d-flex justify-content-end ">
                     <div> 
                         <input class="form-check-input"
                             type="checkbox"
