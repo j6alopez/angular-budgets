@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 
 import { Budget } from '../../budgets/interfaces/budget';
 import { BudgetService } from '../../budgets/services/budget.service';
 import { BudgetsListComponent } from '../../budgets/components/budgets-list/budgets-list.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { PanelComponent } from '../../budgets/components/panel/panel.component';
 import { Settings } from '../../budgets/interfaces/settings';
 import { WelcomeComponent } from '../../../shared/components/welcome/welcome.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'budgets-home',
@@ -24,17 +25,15 @@ import { WelcomeComponent } from '../../../shared/components/welcome/welcome.com
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
-export class HomePageComponent {
-  public addedBudgets: boolean[] = [];
+export class HomePageComponent implements OnInit, OnDestroy {
   public budgets: Budget[] = [];
 
   public baseCost: number = 0;
   public additionalCost: number = 0;
   public totalCost: number = 0;
 
+  public formSubscriptions: Subscription[] = [];
   public form: FormGroup = this.fb.group({
-    addedServices : this.fb.array( [
-    ])
   });
 
   
@@ -45,18 +44,23 @@ export class HomePageComponent {
 
   ngOnInit(): void {
     this.budgets = this.budgetService.getBudgets();
-    this.addedBudgets = new Array<boolean>(this.budgets.length).fill(false);
+
+    Array(this.budgets.length)
+      .fill(false)
+      .forEach((value, index) => {
+        const formControl = new FormControl(value);
+        this.form.addControl(index.toString(), formControl);
+        this.subscribeToCheckFormControl(formControl, index);
+      });
   }
 
-  onCheckSelection(index: number, checked: boolean): void {
-    this.addedBudgets[index] = checked;
+  onCheckChanged(index: number, checked: boolean): void {
     const cost = this.budgets[index].cost;
     this.baseCost += checked ? cost : -cost;
     this.calculateTotalCost();
   }
 
   handleSettingsChanged( index:number, settings: Settings): void {
-    console.log(settings);
     const additionalCost: number = this.budgets[index].additionalCost!;
     this.additionalCost = this.budgetService.calculateAdditionalCost(additionalCost, settings);
     this.calculateTotalCost();
@@ -64,6 +68,23 @@ export class HomePageComponent {
 
   private calculateTotalCost(): void {
     this.totalCost = this.baseCost + this.additionalCost
+  }
+
+  private subscribeToCheckFormControl(formControl: FormControl, index: number) {
+    const subscription: Subscription = formControl.valueChanges.subscribe( checked => {
+      this.onCheckChanged(index, checked);
+    })
+    this.formSubscriptions.push( subscription );
+  }
+
+  public isChecked(index: number): boolean {
+    return this.form.controls[index].value;
+  }
+
+  ngOnDestroy(): void {
+    this.formSubscriptions.forEach(subscription => {
+      subscription.unsubscribe;
+    })
   }
 
 }

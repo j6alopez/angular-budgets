@@ -3,7 +3,7 @@
         <h5>Frontender.itacademy</h5>
     </div>
     <welcome></welcome>
-    <section formArrayName="servicesAdded">
+    <form [formGroup]="form" autocomplete="off">
         @for (budget of budgets; track $index; let last = $last;) {
             <form class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
                 <div class="col-6">
@@ -15,13 +15,13 @@
                 </div>  
                 <div class="col-2 d-flex justify-content-end ">
                     <div>
-                        <input type="checkbox" #checkbox
-                            (click)="onCheckSelection($index, checkbox.checked)"
+                        <input type="checkbox"
+                        [formControlName]="$index"
                         >
                         <label class="ms-3 add-label" for="add-service"> Afegir</label>
                     </div>
                 </div>  
-                @if (last && checkbox.checked) {
+                @if (last && isChecked($index)) {
                     <budgets-panel (settings)="handleSettingsChanged($index, $event)" ></budgets-panel>
                 }
             </form>
@@ -35,6 +35,5 @@
                 <h4>{{ totalCost | currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
             </div>
         </div>
-    </section>
+    </form>
 </div>
-
