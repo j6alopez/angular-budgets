@@ -14,9 +14,10 @@
                     <h2> {{ budget.cost | currency:'EUR':'symbol-narrow':'1.0-0' }} </h2>
                 </div>  
                 <div class="col-2 d-flex justify-content-end ">
-                    <div>
-                        <input type="checkbox"
-                        [formControlName]="$index"
+                    <div> 
+                        <input 
+                            type="checkbox"
+                            [formControlName]="$index"
                         >
                         <label class="ms-3 add-label" for="add-service"> Afegir</label>
                     </div>
