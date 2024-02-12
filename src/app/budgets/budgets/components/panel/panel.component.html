@@ -1,35 +1,37 @@
-<form>
+<form [formGroup]="form">
     <div class="row d-flex justify-content-end">
-        <div class="col-8 col-sm-7 d-flex justify-content-end align-items-center ">
+        <div class="col-12 col-md-8 col-sm-7  d-flex justify-content-end align-items-center ">
             <span>Número de pàgines:</span>
         </div>
-        <div class="col-4 col-sm-2 d-flex justify-content-end align-items-center">
+        <div class="col-12 col-sm-4 d-flex justify-content-end align-items-center">
             <button type="button" 
                 class=" btn-light fa-solid fa-minus"
                 (click)="setPages(-1)"
                 [disabled]="pages === 0"
             >
             </button>
-                        <span class="card px-3 py-1 mx-2">
-                <strong>{{ pages }}</strong>
-            </span>
+            <input type="text" inputmode="numeric"
+                class="form-control"
+                formControlName="pages"
+            >
             <button type="button" class="fa-solid fa-plus"
                 (click)="setPages(+1)"
             ></button>
         </div>
     </div>
     <div class="row d-flex justify-content-end mt-3">
-        <div class="col-8 col-sm-7 d-flex justify-content-end align-items-center ">
+        <div class="col-12 col-sm-7 col-md-8 d-flex justify-content-end align-items-center ">
             <span>Número de llenguatges:</span>
         </div>
-        <div class="col-4 col-sm-2 d-flex justify-content-end align-items-center">
+        <div class="col-12 col-sm-4 d-flex justify-content-end align-items-center">
             <button type="button" class="btn-light fa-solid fa-minus"
                 (click)="setLanguages(-1)"
                 [disabled]="languages === 1"
             ></button>
-            <span class="card px-3 py-1 mx-2">
-                <strong>{{ languages }}</strong>
-            </span>
+            <input type="text" inputmode="numeric"
+                class="form-control"
+                formControlName="languages"
+            >
             <button type="button" 
                 class="fa-solid fa-plus"
                 (click)="setLanguages(+1)"

@@ -17,25 +17,24 @@ export class PanelComponent {
   public languages: number = 1;
 
   public form = this.fb.group({
-    pages: [0,[Validators.min(1)]],
-    languages: [1,[Validators.min(1)]]
+    pages: [0,[ Validators.min(1)]],
+    languages: [1,[ Validators.min(1)]]
   });
 
   constructor( private fb: FormBuilder) {
-
   }
 
   setPages(amount: number): void {
     this.pages += amount;
-    this.settingsChanged();
+    this.emitSettingsChange();
   }
 
   setLanguages(amount: number): void {
     this.languages += amount;
-    this.settingsChanged();
+    this.emitSettingsChange();
   }
 
-  settingsChanged(): void {
+  emitSettingsChange(): void {
     this.settings.emit({ pages: this.pages, languages: this.languages });
   }
 }

@@ -70,7 +70,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.totalCost = this.baseCost + this.additionalCost
   }
 
-  private subscribeToCheckFormControl(formControl: FormControl, index: number) {
+  private subscribeToCheckFormControl(formControl: FormControl, index: number): void {
     const subscription: Subscription = formControl.valueChanges.subscribe( checked => {
       this.onCheckChanged(index, checked);
     })
@@ -86,5 +86,4 @@ export class HomePageComponent implements OnInit, OnDestroy {
       subscription.unsubscribe;
     })
   }
-
 }
