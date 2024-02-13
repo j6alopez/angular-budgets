@@ -20,8 +20,9 @@
                             <label class="ms-3 add-label" for="add-service"> Afegir</label>
                         </div>
                     </div>  
-                    @if (last && isChecked($index)) {
-                        <budgets-panel (customizations)="handleCustomizationsChanged($index, $event)" ></budgets-panel>
+                    @if (hasCustomizations($index) && isChecked($index)) {
+                        <budgets-panel [initialCustomizations]="getCustomizations($index)" 
+                        (customizations)="handleCustomizationsChanged($index, $event)" ></budgets-panel>
                     }
                 </div>
             }

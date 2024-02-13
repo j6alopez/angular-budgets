@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Customizations } from '../../interfaces/extra-features';
 import { CommonModule } from '@angular/common';
@@ -10,8 +10,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.scss',
 })
-export class PanelComponent {
+export class PanelComponent implements OnInit {
 
+  @Input()
+  initialCustomizations!: Customizations;
   @Output()
   customizations = new EventEmitter<Customizations>();
 
@@ -21,6 +23,10 @@ export class PanelComponent {
   });
 
   constructor( private fb: FormBuilder) {
+  }
+  ngOnInit(): void {
+    this.form.controls['pages'].setValue(this.initialCustomizations.pages);
+    this.form.controls['languages'].setValue(this.initialCustomizations.languages);
   }
 
   setPages( amount: number): void {

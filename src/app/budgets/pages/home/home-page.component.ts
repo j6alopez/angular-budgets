@@ -82,6 +82,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.budgetService.manageItemCustomization(this.budget, item );
    }
 
+   hasCustomizations(index: number): boolean {
+      return this.budget.items[index].customizations !== undefined;
+   }
+
+   getCustomizations(index: number): Customizations {
+      return this.budget.items[index].customizations!;
+   }
+
    private subscribeToFormControls(formArray: FormArray): void {
       formArray.controls.forEach((control, index) => {
          const subscription: Subscription = control.valueChanges.subscribe(
