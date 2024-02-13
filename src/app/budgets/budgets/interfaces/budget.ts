@@ -1,7 +1,8 @@
-type BudgetType = 'Seo' |'Adds' | 'Web';
+import { Item } from "./item";
+
 export interface Budget {
-    budgetType: BudgetType;
-    description: string;
-    cost: number;
-    additionalCost?: number;
+    items: Item [];
+    baseCost: number;
+    customizationCost: number;
+    totalCost: number;
 }

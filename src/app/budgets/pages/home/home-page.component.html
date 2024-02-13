@@ -2,14 +2,14 @@
     <welcome></welcome>
     <form [formGroup]="form" autocomplete="off">
         <div formArrayName="services">
-            @for (budget of budgets; track $index; let last = $last;) {
+            @for (item of budget.items; track $index; let last = $last;) {
                 <div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
                     <div class="col-lg-6 col-md-6 col-12">
-                        <h4> {{ budget.budgetType }} </h4>
-                        <p> {{ budget.description}}</p>
+                        <h4> {{ item.serviceItem }} </h4>
+                        <p> {{ item.description}}</p>
                     </div>
                     <div class="col-lg-4 col-md-3 col-6">
-                        <h2> {{ budget.cost | currency:'EUR':'symbol-narrow':'1.0-0' }} </h2>
+                        <h2> {{ item.baseCost | currency:'EUR':'symbol-narrow':'1.0-0' }} </h2>
                     </div>  
                     <div class="col-lg-2 col-md-3 col-6 d-flex justify-content-end ">
                         <div> 
@@ -21,7 +21,7 @@
                         </div>
                     </div>  
                     @if (last && isChecked($index)) {
-                        <budgets-panel (settings)="handleSettingsChanged($index, $event)" ></budgets-panel>
+                        <budgets-panel (customizations)="handleCustomizationsChanged($index, $event)" ></budgets-panel>
                     }
                 </div>
             }
@@ -32,9 +32,7 @@
             <h4>Preu pressupostat:</h4>
         </div>
         <div class="col-3 col-sm-2 d-flex justify-content-end ">
-            <h4>{{ totalCost | currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
+            <h4>{{ budget.totalCost| currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
         </div>
     </div>
 </div>
-
-{{ form.value |json }}

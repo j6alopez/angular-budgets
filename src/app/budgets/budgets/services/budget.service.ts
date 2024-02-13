@@ -1,46 +1,69 @@
 import { Injectable } from '@angular/core';
+import { Item } from '../interfaces/item';
+import { Customizations } from '../interfaces/extra-features';
 import { Budget } from '../interfaces/budget';
-import { Settings } from '../interfaces/settings';
 
 @Injectable({
-  providedIn: 'root',
-
+   providedIn: 'root',
 })
 export class BudgetService {
+   constructor() {}
 
-  constructor() {}
+   private serviceItems: Item[] = [
+      {
+         serviceItem: 'Seo',
+         description: `Campanya de SEO completa`,
+         baseCost: 300,
+      },
+      {
+         serviceItem: 'Adds',
+         description: `Campanya de publicitat`,
+         baseCost: 400,
+      },
+      {
+         serviceItem: 'Web',
+         description: `Programació d'un web responsive completa`,
+         baseCost: 500,
+         customizations: {
+            pages: 0,
+            languages: 0,
+            cost: 30,
+         },
+      },
+   ];
 
-  private budgets: Budget[] = [
-    {
-      budgetType: 'Seo',
-      cost: 300,
-      description: `Campanya de SEO completa`,
-    },
-    {
-      budgetType: 'Adds',
-      cost: 400,
-      description: `Campanya de publicitat`,
-    },
-    {
-      budgetType: 'Web',
-      cost: 500,
-      description: `Programació d'un web responsive completa`,
-      additionalCost: 30
-    },
-  ];
+   getItems(): Item[] {
+      return this.serviceItems;
+   }
 
+   private calculateCustomizationCost(customizations: Customizations): number {
+      const { pages, languages, cost } = customizations;
+      return pages * languages * cost!;
+   }
 
-  getBudgets(): Budget[] {
-    return this.budgets;
-  }
+   private calculateTotalCost(budget: Budget): void {
+      budget.totalCost = budget.baseCost + budget.customizationCost;
+   }
 
-  calculateAdditionalCost(cost: number, settings: Settings): number {
-    const { pages, languages} = settings;
-    return cost * pages * languages;
-  }
+   manageItem(budget: Budget, item: Item, added: boolean): void {
+      let itemCustomizationCost: number = item.customizations
+         ? this.calculateCustomizationCost(item.customizations)
+         : 0;
 
-  calculateTotalCost(baseCost: number, addtionalCost: number): number {
-    return baseCost + addtionalCost;
-  }
+      itemCustomizationCost = added
+         ? itemCustomizationCost
+         : -itemCustomizationCost; 
+        
+      const itembaseCost: number = added ? item.baseCost : -item.baseCost;
+      budget.baseCost += itembaseCost;
+      budget.customizationCost += itemCustomizationCost;
+
+      this.calculateTotalCost(budget);
+   }
+
+   manageItemCustomization( budget: Budget, item: Item):void {
+    budget.customizationCost = this.calculateCustomizationCost(item.customizations!);
+    this.calculateTotalCost(budget);
+   }
 
 }

@@ -1,13 +1,14 @@
 <form [formGroup]="form">
     <div class="row d-flex justify-content-end mt-sm-1">
         <div class="col-12 col-md-8 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center my-1 ">
+            <button type="button" class="btn bi bi-info-circle"></button>
             <span>Número de pàgines:</span>
         </div>
         <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <button type="button" 
                 class="add-remove fa-solid fa-minus"
                 (click)="setPages(-1)"
-                [disabled]="isMinusPagesDisabled()"
+                [disabled]="isMinusButtonPagesDisabled()"
             >
             </button>
             <input type="text" inputmode="numeric"
@@ -27,7 +28,7 @@
         <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <button type="button" class="add-remove fa-solid fa-minus"
                 (click)="setLanguages(-1)"
-                [disabled]="isMinusLanguagesDisabled()"
+                [disabled]="isMinusButtonLanguagesDisabled()"
             ></button>
             <input type="text" inputmode="numeric"
                 class="form-control"

@@ -21,7 +21,6 @@ export class BudgetsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.budgets = this.budgetService.getBudgets();
   }
 
 

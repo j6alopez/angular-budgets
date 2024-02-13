@@ -1,22 +1,23 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Settings } from '../../interfaces/settings';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Customizations } from '../../interfaces/extra-features';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'budgets-panel',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.scss',
 })
 export class PanelComponent {
 
   @Output()
-  settings = new EventEmitter<Settings>();
+  customizations = new EventEmitter<Customizations>();
 
   public form = this.fb.group({
-    pages: [0,[ Validators.min(1)]],
-    languages: [0,[ Validators.min(1)]]
+    pages: [0,[ Validators.min(1), Validators.pattern("^[0-9]*$")]],
+    languages: [0,[ Validators.min(1), Validators.pattern("^[0-9]*$")]]
   });
 
   constructor( private fb: FormBuilder) {
@@ -25,7 +26,6 @@ export class PanelComponent {
   setPages( amount: number): void {
     const formControl = this.form.controls['pages'];
     formControl.setValue(formControl.value! + amount);
-    this.emitSettingsChange();
     this.emitSettingsChange();
   }
 
@@ -36,16 +36,16 @@ export class PanelComponent {
   }
 
   emitSettingsChange(): void {
-    this.settings.emit({ 
+    this.customizations.emit({ 
       pages: this.form.get('pages')?.value || 0, 
       languages: this.form.get('languages')?.value || 0 
     });
   }
-  isMinusLanguagesDisabled(): boolean {
+  isMinusButtonLanguagesDisabled(): boolean {
     return this.form.get('languages')?.value === 0;
   }
 
-  isMinusPagesDisabled(): boolean {
+  isMinusButtonPagesDisabled(): boolean {
     return this.form.get('pages')?.value === 0;
   }
 
