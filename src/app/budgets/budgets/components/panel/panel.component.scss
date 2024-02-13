@@ -1,4 +1,4 @@
-add-remove {
+.add-remove {
     border-radius: 50%;
     height: 1.6rem;
     width: 1.6rem;
@@ -9,4 +9,13 @@ input[type="text"][inputmode="numeric"] {
     width:3.5rem;
     margin-left: 1rem;
     margin-right: 1rem;
+}
+
+.overlay {
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(128,128,128,0.5); 
 }

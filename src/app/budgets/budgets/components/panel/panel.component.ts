@@ -49,4 +49,18 @@ export class PanelComponent {
     return this.form.get('pages')?.value === 0;
   }
 
+  openModal(modalId: string) {
+    const modal = document.getElementById(modalId)!; 
+    if(modal) {
+      modal.style.display='block';
+    }
+  }
+
+  closeModal(modalId: string) {
+    const modal = document.getElementById(modalId)!; 
+    if(modal) {
+      modal.style.display='none';
+    }
+  }
+
 }
