@@ -4,7 +4,7 @@ import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular
 import { Budget } from '../../budgets/interfaces/budget';
 import { BudgetService } from '../../budgets/services/budget.service';
 import { BudgetsListComponent } from '../../budgets/components/budgets-list/budgets-list.component';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { PanelComponent } from '../../budgets/components/panel/panel.component';
 import { Settings } from '../../budgets/interfaces/settings';
@@ -34,8 +34,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public additionalCost: number = 0;
   public totalCost: number = 0;
 
-  public formSubscriptions: Subscription[] = [];
-  public form: FormGroup = this.fb.group({
+  public subscriptions: Subscription[] = [];
+  public form: FormGroup = new FormGroup({
+      services: new FormArray([])
   });
 
   public bodyText = 'This text can be updated in modal 1';
@@ -43,19 +44,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
   constructor(
     private budgetService: BudgetService,
     private fb: FormBuilder,
-    public modalService: ModalService
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
     this.budgets = this.budgetService.getBudgets();
+    const formArray: FormArray = this.form.get('services') as FormArray;
+    this.initFormArray( formArray, this.budgets.length );
+    this.subscribeToFormControls( formArray );
 
-    Array(this.budgets.length)
-      .fill(false)
-      .forEach((value, index) => {
-        const formControl = new FormControl(value);
-        this.form.addControl(index.toString(), formControl);
-        this.subscribeToCheckFormControl(formControl, index);
-      });
   }
 
   onCheckChanged(index: number, checked: boolean): void {
@@ -74,20 +71,36 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.totalCost = this.baseCost + this.additionalCost
   }
 
-  private subscribeToCheckFormControl(formControl: FormControl, index: number): void {
-    const subscription: Subscription = formControl.valueChanges.subscribe( checked => {
-      this.onCheckChanged(index, checked);
-    })
-    this.formSubscriptions.push( subscription );
+  private subscribeToFormControls(formArray: FormArray): void {
+    formArray.controls.forEach(( control, index) => {
+        const subscription: Subscription = control.valueChanges.subscribe(
+          checked => {
+            this.onCheckChanged(index, checked);
+          }
+        );
+        this.subscriptions.push(subscription);
+    });
   }
 
   public isChecked(index: number): boolean {
-    return this.form.controls[index].value;
+    return this.servicesFormArray.at(index).value;
   }
 
   ngOnDestroy(): void {
-    this.formSubscriptions.forEach(subscription => {
-      subscription.unsubscribe;
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
     })
+  }
+
+  private get servicesFormArray(): FormArray {
+    return this.form.get('services') as FormArray;
+  }
+
+  private initFormArray(formArray: FormArray, length: number): void {
+    let index = 0;
+    while (index< length) {
+      formArray.push( new FormControl(false));
+      index++;
+    }
   }
 }
