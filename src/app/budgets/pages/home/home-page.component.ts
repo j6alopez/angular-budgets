@@ -7,18 +7,18 @@ import { BudgetsListComponent } from '../../budgets/components/budgets-list/budg
 import { Customizations } from '../../budgets/interfaces/extra-features';
 import {
   FormArray,
-  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { Item } from '../../budgets/interfaces/item';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
-import { ModalService } from '../../../shared/modal.service';
 import { PanelComponent } from '../../budgets/components/panel/panel.component';
 import { Subscription } from 'rxjs';
 import { WelcomeComponent } from '../../../shared/components/welcome/welcome.component';
+import { ValidatorService } from '../../../shared/services/validator.service';
 
 @Component({
    selector: 'budgets-home',
@@ -46,15 +46,24 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
    public subscriptions: Subscription[] = [];
    public form: FormGroup = new FormGroup({
-      services: new FormArray([]),
+      services: new FormArray([],[this.validatorService.hasAtLeastOneSelection]),
+      name: new FormControl('', [
+         Validators.required,
+         Validators.pattern(ValidatorService.firstNameAndLastnamePattern)
+      ]),
+      telephone: new FormControl('', [
+         Validators.required,
+         Validators.pattern(ValidatorService.spanishPhonePattern)
+      ]),
+      email: new FormControl('', [
+         Validators.required, 
+         Validators.pattern(ValidatorService.emailPattern)
+      ])
    });
-
-   public bodyText = 'This text can be updated in modal 1';
 
    constructor(
       private budgetService: BudgetService,
-      private fb: FormBuilder,
-      protected modalService: ModalService
+      private validatorService: ValidatorService
    ) {}
 
    ngOnInit(): void {
@@ -88,6 +97,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
    getCustomizations(index: number): Customizations {
       return this.budget.items[index].customizations!;
+   }
+
+   onSubmit(): void {
+
    }
 
    private subscribeToFormControls(formArray: FormArray): void {

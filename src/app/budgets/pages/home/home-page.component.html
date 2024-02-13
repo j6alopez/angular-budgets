@@ -1,6 +1,6 @@
 <div class="container">
     <welcome></welcome>
-    <form [formGroup]="form" autocomplete="off">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
         <div formArrayName="services">
             @for (item of budget.items; track $index; let last = $last;) {
                 <div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
@@ -17,7 +17,7 @@
                                 class="form-check-input"
                                 type="checkbox"
                             >
-                            <label class="ms-3 add-label" for="add-service"> Afegir</label>
+                            <label class="ms-3 add-label" [for]="$index"> Afegir</label>
                         </div>
                     </div>  
                     @if (hasCustomizations($index) && isChecked($index)) {
@@ -36,4 +36,41 @@
             <h4>{{ budget.totalCost| currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
         </div>
     </div>
+
+    <div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
+        <h4 class="mb-3">Demanar Pressupost</h4>
+        <div class="col-3">
+            <label hidden for="name">Name</label>
+            <input type="text" name="name" placeholder="Nom" 
+                    class="form-control"
+            >
+        </div>
+        <div class="col-3">
+            <label hidden for="telephone"></label>
+            <input type="tel" placeholder="Telèfon"
+                class="form-control"
+            >
+        </div>
+        <div class="col-3">
+            <label hidden for="email"></label>
+            <input type="email" placeholder="Email"
+                class="form-control"
+            >
+        </div>
+        <div class="col-3">
+            <button type="submit" class="btn btn-success">Sol·licitar pressupost &rarr;</button>
+        </div>
+    </div>
 </div>
+
+
+<h5>Valor del formulario</h5>
+<pre>{{ form.value | json }}</pre>
+<br>
+
+
+<!-- <h5>Términos</h5> -->
+<!-- <pre>{{ myForm.controls?.terminos?.errors | json }}</pre> -->
+
+<!-- <br>
+<pre>Condiciones: </pre> -->
