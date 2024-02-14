@@ -1,8 +1,8 @@
-import { Customizations } from "./extra-features";
-import { ServiceItem } from "./service-item";
+import { Customizations } from "./customizations";
 
 export interface Item {
-    serviceItem: ServiceItem;
+    id: number;
+    title: string;
     description: string;
     baseCost: number;
     customizations?: Customizations;

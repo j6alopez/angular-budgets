@@ -1,1 +1,0 @@
-export type ServiceItem = 'Seo' |'Adds' | 'Web' | string;

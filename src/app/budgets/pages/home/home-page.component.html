@@ -1,11 +1,11 @@
 <div class="container">
     <welcome></welcome>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
-        <div formArrayName="services">
-            @for (item of budget.items; track $index; let last = $last;) {
+        <div formArrayName="items">
+            @for (item of offeredItems; track $index; let last = $last;) {
                 <div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
                     <div class="col-lg-6 col-md-6 col-12">
-                        <h4> {{ item.serviceItem }} </h4>
+                        <h4> {{ item.title }} </h4>
                         <p> {{ item.description}}</p>
                     </div>
                     <div class="col-lg-4 col-md-3 col-6">
@@ -21,21 +21,20 @@
                         </div>
                     </div>  
                     @if (hasCustomizations($index) && isChecked($index)) {
-                        <budgets-panel [initialCustomizations]="getCustomizations($index)" 
-                        (customizations)="handleCustomizationsChanged($index, $event)" ></budgets-panel>
+                        <budgets-panel [customizations]="getCustomizations(item.id)" 
+                        (customizationsChanged)="handleCustomizationsChanged($event)" ></budgets-panel>
                     }
                 </div>
             }
         </div>
-    </form>
-    <div class="row w-75 justify-content-end mx-auto mt-4 ">
-        <div class="col-9 col-sm-7 d-flex justify-content-end ">
-            <h4>Preu pressupostat:</h4>
+        <div class="row w-75 justify-content-end mx-auto mt-4 ">
+            <div class="col-9 col-sm-7 d-flex justify-content-end ">
+                <h4>Preu pressupostat:</h4>
+            </div>
+            <div class="col-3 col-sm-2 d-flex justify-content-end ">
+                <h4>{{ budgetView.totalCost| currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
+            </div>
         </div>
-        <div class="col-3 col-sm-2 d-flex justify-content-end ">
-            <h4>{{ budget.totalCost| currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
-        </div>
-    </div>
 
     <div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
         <h4 class="mb-3">Demanar Pressupost</h4>
@@ -43,34 +42,28 @@
             <label hidden for="name">Name</label>
             <input type="text" name="name" placeholder="Nom" 
                     class="form-control"
+                    formControlName="name"
             >
         </div>
         <div class="col-3">
             <label hidden for="telephone"></label>
             <input type="tel" placeholder="Telèfon"
                 class="form-control"
+                formControlName="telephone"
             >
         </div>
         <div class="col-3">
             <label hidden for="email"></label>
             <input type="email" placeholder="Email"
                 class="form-control"
+                formControlName="email"
             >
         </div>
         <div class="col-3">
             <button type="submit" class="btn btn-success">Sol·licitar pressupost &rarr;</button>
         </div>
     </div>
+    </form>
 </div>
 
-
-<h5>Valor del formulario</h5>
-<pre>{{ form.value | json }}</pre>
-<br>
-
-
-<!-- <h5>Términos</h5> -->
-<!-- <pre>{{ myForm.controls?.terminos?.errors | json }}</pre> -->
-
-<!-- <br>
-<pre>Condiciones: </pre> -->
+{{form.valid | json}}

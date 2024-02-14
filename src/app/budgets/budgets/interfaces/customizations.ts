@@ -1,5 +1,6 @@
 export interface Customizations {
-    cost?: number;
+    itemId: number;
     pages: number;
     languages: number;
+    cost?: number;
 }

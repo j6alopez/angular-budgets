@@ -9,8 +9,8 @@
         <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <button type="button" 
                 class="fa-solid fa-minus add-remove"
-                (click)="setPages(-1)"
-                [disabled]="isMinusButtonPagesDisabled()"
+                (click)="setFieldValue('pages', -1)"
+                [disabled]="isMinusButtonDisabled('pages')"
             >
             </button>
             <input type="text" inputmode="numeric"
@@ -18,7 +18,7 @@
                 formControlName="pages"
             >
             <button type="button" class="add-remove fa-solid fa-plus"
-                (click)="setPages(+1)"
+                (click)="setFieldValue('pages', +1)"
             ></button>
         </div>
     </div>
@@ -34,8 +34,8 @@
         </div>
         <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
             <button type="button" class="add-remove fa-solid fa-minus"
-                (click)="setLanguages(-1)"
-                [disabled]="isMinusButtonLanguagesDisabled()"
+                (click)="setFieldValue('languages',-1)"
+                [disabled]="isMinusButtonDisabled('languages')"
             ></button>
             <input type="text" inputmode="numeric"
                 class="form-control"
@@ -43,7 +43,7 @@
             >
             <button type="button" 
                 class=" add-remove fa-solid fa-plus"
-                (click)="setLanguages(+1)"
+                (click)="setFieldValue('languages', +1)"
             >
             </button>
         </div>
