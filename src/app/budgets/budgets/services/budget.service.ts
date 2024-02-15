@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Item } from '../interfaces/item';
-import { Customizations } from '../interfaces/customizations';
-import { Budget } from '../interfaces/budget';
 import { FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+
+import { Budget } from '../interfaces/budget';
 import { BudgetView } from '../interfaces/budget-view';
+import { Customizations } from '../interfaces/customizations';
+import { Item } from '../interfaces/item';
 
 @Injectable({
    providedIn: 'root',
 })
 export class BudgetService {
-   public budgetsSubject = new Subject<Budget[]>();
-   private budgets: Budget[] = [];
+   private budgetSignal = signal<Budget[]>([]);
+   public readonly budgets = this.budgetSignal.asReadonly();
 
    private readonly serviceItems: Item[] = [
       {
@@ -51,13 +51,8 @@ export class BudgetService {
 
    save(budgetBiew: BudgetView, form: FormGroup) {
       const { name, telephone, email } = form.value;
-      const updatedBudget: Budget = { ...budgetBiew, name, telephone, email };
-      this.budgets.push(updatedBudget);
-      this.budgetsSubject.next(this.getBudgets());
-   }
-
-   getBudgets(): Budget[] {
-      return this.budgets.slice();
+      const newBudget: Budget = { ...budgetBiew, name, telephone, email };
+      this.budgetSignal.update(budgets => [...budgets, newBudget]);
    }
 
    calculateTotal(items: Item[]): number {
