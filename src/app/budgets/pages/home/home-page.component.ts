@@ -21,6 +21,7 @@ import { Subscription } from 'rxjs';
 import { WelcomeComponent } from '../../../shared/components/welcome/welcome.component';
 import { ValidatorService } from '../../../shared/services/validator.service';
 import { BudgetView } from '../../budgets/interfaces/budget-view';
+import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
 
 @Component({
    selector: 'budgets-home',
@@ -63,15 +64,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
       ])
    });
 
+   private urlParamsName: Map<number, string> =  new Map< number, string> (
+      [ 
+         [ 1, 'CampaignSeo'],
+         [ 2, 'Adds'],
+         [ 3, 'CampaignSeo']
+      ]
+   );
+
+
    constructor(
       private budgetService: BudgetService,
-      private validatorService: ValidatorService
+      private validatorService: ValidatorService,
+      private router: Router,
+      private activatedRoute: ActivatedRoute
+
    ) {}
 
    ngOnInit(): void {
-      // this.offeredItems = this.budgetService.getItems();
+      this.offeredItems = this.budgetService.getItems();
       this.initFormArray();
       this.subscribeToFormGroup();
+
    }
 
    ngOnDestroy(): void {
@@ -119,11 +133,30 @@ export class HomePageComponent implements OnInit, OnDestroy {
          const subscription: Subscription = this.form.valueChanges.subscribe(
             () => { 
                this.updateSelections(this.itemsFormArray);
+               this.updateActiveRoute();
                this.budgetView.totalCost = this.budgetService.calculateTotal([...this.budgetView.items]);
             }
          );
          this.subscriptions.push(subscription);
    }
+
+   updateActiveRoute():void {
+      const params: Params = {};
+      this.budgetView.items.forEach(item => {
+         const paramName: string =  this.urlParamsName.get(item.id)!;
+         params[paramName] = true;
+
+         if( item.customizations) {
+            const {languages, pages } = item.customizations;
+            params['languages'] = languages;
+            params['pages'] = pages;
+         }
+      })
+      const navigationExtras: NavigationExtras = {queryParams: params };
+      const currentPath: string[] = this.activatedRoute.snapshot.url.map(segment => segment.path);
+      this.router.navigate( currentPath, navigationExtras);
+   }
+
 
    private updateSelections( form: FormArray) {
       this.budgetView.items = [];
