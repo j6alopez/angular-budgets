@@ -1,4 +1,25 @@
-.add-label {
-    font-size: 0.9rem;
-    font-weight: bold;
+$font-color : #aaaaaa;
+hr {
+    border-top: 0.3rem dashed $font-color;
 }
+ul {
+    margin-left: -1.2rem;
+}
+ul.no-bullets {
+    list-style: none;
+    margin-left: -2rem;
+}
+
+.custom-font-color{
+    color: $font-color;
+}
+hr {
+    border-style: dotted;
+}
+
+.bi.bi-search {
+    position: absolute;
+    pointer-events: none;
+    margin-left: 13.5rem;
+}
+

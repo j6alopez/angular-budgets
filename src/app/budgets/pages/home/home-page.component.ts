@@ -69,7 +69,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
    ) {}
 
    ngOnInit(): void {
-      this.offeredItems = this.budgetService.getItems();
+      // this.offeredItems = this.budgetService.getItems();
       this.initFormArray();
       this.subscribeToFormGroup();
    }

@@ -6,4 +6,5 @@ export interface Budget {
     email: string;
     telephone:string;
     totalCost: number;
+    createdOn: string
 }
