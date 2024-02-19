@@ -70,7 +70,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
       ]
    );
 
-
    constructor(
       private budgetService: BudgetService,
       private validatorService: ValidatorService,
@@ -83,6 +82,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.offeredItems = this.budgetService.getItems();
       this.initFormArray();
       this.subscribeToFormGroup();
+      this.router.navigate( []);
 
    }
 
@@ -99,6 +99,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
          item.customizations!.languages = languages;
          item.customizations!.pages = pages;
          this.budgetView.totalCost = this.budgetService.calculateTotal([...this.budgetView.items]);
+         this.updateActiveRoute();
       }
    }
 

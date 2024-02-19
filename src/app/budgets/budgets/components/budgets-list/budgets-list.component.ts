@@ -11,12 +11,20 @@ import { Subject, Subscription, debounceTime } from 'rxjs';
    templateUrl: './budgets-list.component.html',
    styleUrl: './budgets-list.component.scss',
 })
-export class BudgetsListComponent implements OnInit, OnDestroy {
+export class BudgetsListComponent< K extends keyof Budget & string> implements OnInit, OnDestroy {
    private signalBudgets!: Signal<Budget[]>;
    public budgets!: Budget[];
 
    private searchSubject: Subject<string> = new Subject<string>();
    private debouncerSubscription?: Subscription;
+
+   private sortFields: Map< K, boolean> = new Map< K, boolean>([
+      ['createdOn' as K, false],
+      ['totalCost' as K, false],
+      ['name' as K, false],
+   ]);
+
+   fieldForSorting: K | undefined;
 
    constructor(private budgetService: BudgetService) {}
 
@@ -26,10 +34,8 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
       });
       this.budgets = this.budgetService.budgets();
       this.debouncerSubscription = this.searchSubject
-         .pipe(
-            debounceTime(400)
-         )
-         .subscribe( value => {
+         .pipe(debounceTime(400))
+         .subscribe((value) => {
             this.searchByName(value);
          });
    }
@@ -42,15 +48,17 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
       this.searchSubject.next(name);
    }
 
-   searchByName( name: string) {
+   searchByName(name: string) {
       if (name === '') {
          this.budgets = this.budgetService.budgets();
          return;
       }
-      this.budgets = this.budgets.filter((budget) => budget.name.includes(name));
+      this.budgets = this.budgets.filter((budget) =>
+         budget.name.includes(name)
+      );
    }
 
-   sortByField<K extends keyof Budget>(field: K & string): void {
+   sortByField < K extends keyof Budget & string> (field: K): void {
       this.budgets.sort((budget1, budget2) => {
          const value1 = budget1[field];
          const value2 = budget2[field];
@@ -69,6 +77,24 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
 
    containsBudgets(): boolean {
       return this.signalBudgets().length > 0;
+   }
+
+   isActive(field: K): boolean {
+      return this.sortFields.get(field)!;
+   }
+
+   manageSorting(field: K) {
+      this.fieldForSorting= field;
+      this.sortByField( field);
+      this.markFieldAsActive( field as K);
+   }
+
+   markFieldAsActive(field: K) {
+      this.sortFields.forEach((value, key, map) => {
+         field === key 
+            ? map.set( key, true)
+            : map.set( key, false);
+      });
    }
 
 }
