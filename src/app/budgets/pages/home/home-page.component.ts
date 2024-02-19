@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
-import { Budget } from '../../budgets/interfaces/budget';
 import { BudgetService } from '../../budgets/services/budget.service';
 import { BudgetsListComponent } from '../../budgets/components/budgets-list/budgets-list.component';
 import { Customizations } from '../../budgets/interfaces/customizations';
@@ -176,4 +174,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
          formArray.push(new FormControl(false));
       })
    }
+
+   isNotValidField(field: string) {
+      return this.validatorService.isNotValidField(this.form, field);
+   }
+
+   hasOneSelection(): boolean {
+      const isNotValid = this.validatorService.hasAtLeastOneSelection(this.form.get('items')!);
+      return isNotValid ? false : true;
+   }
+
 }

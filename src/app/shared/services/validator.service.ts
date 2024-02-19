@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormArray, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,6 @@ export class ValidatorService {
   public static onlyNumbersPattern: string = '^[1-9]\d*$';
 
   public hasAtLeastOneSelection = (control: AbstractControl): ValidationErrors | null => {
-
     
     const isValid: boolean = (control as FormArray).controls.some(control => control.value === true);
     
@@ -20,4 +19,8 @@ export class ValidatorService {
 
   }
 
+  public isNotValidField(form: FormGroup, field: string): boolean | null {
+    return form.controls[field].errors 
+      && form.controls[field].touched;
+  }
 }

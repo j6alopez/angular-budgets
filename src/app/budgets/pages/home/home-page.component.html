@@ -31,6 +31,14 @@
       <div class="col-3 col-sm-2 d-flex justify-content-end ">
         <h4>{{ budgetView.totalCost| currency:'EUR':'symbol-narrow':'1.0-0' }}</h4>
       </div>
+
+      @if (isNotValidField('items')) {
+        @if ( !hasOneSelection()) {
+          <span class="form-text text-danger text-center ">
+            Mínim un servei contract
+          </span>
+        }
+      }
     </div>
 
     <div class="row card d-flex flex-row align-items-center w-75 rounded-3 shadow mx-auto mt-5 p-4">
@@ -38,14 +46,29 @@
       <div class="col-3">
         <label hidden for="name">Name</label>
         <input type="text" name="name" placeholder="Nom" class="form-control" formControlName="name">
+        @if (isNotValidField('name')) {
+        <span class="form-text text-danger">
+          Mínim nom i cognom
+        </span>
+        }
       </div>
       <div class="col-3">
         <label hidden for="telephone"></label>
         <input type="tel" placeholder="Telèfon" class="form-control" formControlName="telephone">
+        @if (isNotValidField('telephone')) {
+        <span class="form-text text-danger">
+          Només telèfon espanyol
+        </span>
+        }
       </div>
       <div class="col-3">
         <label hidden for="email"></label>
         <input type="email" placeholder="Email" class="form-control" formControlName="email">
+        @if (isNotValidField('email')) {
+        <span class="form-text text-danger">
+          Email incorrecte
+        </span>
+        }
       </div>
       <div class="col-3">
         <button type="submit" class="btn btn-success">Sol·licitar pressupost &rarr;</button>
