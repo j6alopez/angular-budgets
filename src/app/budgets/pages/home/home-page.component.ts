@@ -15,7 +15,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Item } from '../../budgets/interfaces/item';
-import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { PanelComponent } from '../../budgets/components/panel/panel.component';
 import { Subscription } from 'rxjs';
 import { WelcomeComponent } from '../../../shared/components/welcome/welcome.component';
@@ -30,7 +29,6 @@ import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/route
       BudgetsListComponent,
       CommonModule,
       FormsModule,
-      ModalComponent,
       PanelComponent,
       ReactiveFormsModule,
       WelcomeComponent,
@@ -173,8 +171,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
    private initFormArray(): void {
       const formArray: FormArray = this.form.get('items') as FormArray;
-      for( const item of this.offeredItems) {
+      this.offeredItems.forEach( () => {
          formArray.push(new FormControl(false));
-      }
+      })
    }
 }

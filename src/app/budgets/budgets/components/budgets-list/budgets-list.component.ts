@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, Signal, computed } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import { Budget } from '../../interfaces/budget';
 import { CommonModule } from '@angular/common';
-import { Subject, Subscription, debounce, debounceTime } from 'rxjs';
+import { Subject, Subscription, debounceTime } from 'rxjs';
 
 @Component({
    selector: 'budgets-list',
