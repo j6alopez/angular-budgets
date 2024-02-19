@@ -50,15 +50,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
       items: new FormArray([],[this.validatorService.hasAtLeastOneSelection]),
       name: new FormControl('', [
          Validators.required,
-         // Validators.pattern(ValidatorService.firstNameAndLastnamePattern)
+         Validators.pattern(ValidatorService.firstNameAndLastnamePattern)
       ]),
       telephone: new FormControl('', [
          Validators.required,
-         // Validators.pattern(ValidatorService.spanishPhonePattern)
+         Validators.pattern(ValidatorService.spanishPhonePattern)
       ]),
       email: new FormControl('', [
          Validators.required, 
-         // Validators.pattern(ValidatorService.emailPattern)
+         Validators.pattern(ValidatorService.emailPattern)
       ])
    });
 

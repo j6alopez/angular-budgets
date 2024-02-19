@@ -24,12 +24,12 @@ export class BudgetsListComponent< K extends keyof Budget & string> implements O
       ['name' as K, false],
    ]);
 
-   fieldForSorting: K | undefined;
 
    constructor(private budgetService: BudgetService) {}
 
    ngOnInit(): void {
       this.signalBudgets = computed(() => {
+         this.budgets = this.budgetService.budgets(); 
          return this.budgetService.budgets();
       });
       this.budgets = this.budgetService.budgets();
@@ -44,8 +44,8 @@ export class BudgetsListComponent< K extends keyof Budget & string> implements O
       this.debouncerSubscription?.unsubscribe();
    }
 
-   onSearchNameKeyUp(name: string): void {
-      this.searchSubject.next(name);
+   onSearchNameKeyUp( name: string): void {
+      this.searchSubject.next( name);
    }
 
    searchByName(name: string) {
@@ -76,6 +76,7 @@ export class BudgetsListComponent< K extends keyof Budget & string> implements O
    }
 
    containsBudgets(): boolean {
+      console.log(this.signalBudgets());
       return this.signalBudgets().length > 0;
    }
 
@@ -84,7 +85,6 @@ export class BudgetsListComponent< K extends keyof Budget & string> implements O
    }
 
    manageSorting(field: K) {
-      this.fieldForSorting= field;
       this.sortByField( field);
       this.markFieldAsActive( field as K);
    }
@@ -98,4 +98,3 @@ export class BudgetsListComponent< K extends keyof Budget & string> implements O
    }
 
 }
-

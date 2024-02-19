@@ -10,50 +10,7 @@ import { Item } from '../interfaces/item';
    providedIn: 'root',
 })
 export class BudgetService {
-   private budgetSignal = signal<Budget[]>([
-      {
-         items: [
-            {
-               id: 1,
-               title: 'Seo',
-               description: `Campanya de SEO completa`,
-               baseCost: 300,
-            },
-            {
-               id: 1,
-               title: 'Web',
-               description: `Campanya de SEO completa`,
-               baseCost: 300,
-            }
-         ],
-         name: 'ultimo',
-         email: 'email',
-         totalCost: 300,
-         telephone: '1234568',
-         createdOn: '2024-03-16T10:46:41.247Z'
-      },
-      {
-         items: [
-            {
-               id: 1,
-               title: 'Seo',
-               description: `Campanya de SEO completa`,
-               baseCost: 300,
-            },
-            {
-               id: 1,
-               title: 'Web',
-               description: `Campanya de SEO completa`,
-               baseCost: 300,
-            }
-         ],
-         name: 'primero',
-         email: 'email',
-         totalCost: 600,
-         telephone: '1234568',
-         createdOn: '2024-02-16T10:46:41.247Z'
-      },
-   ]);
+   private budgetSignal = signal<Budget[]>([]);
    public readonly budgets = this.budgetSignal.asReadonly();
 
    private readonly serviceItems: Item[] = [
@@ -98,7 +55,7 @@ export class BudgetService {
          ...budgetBiew, name, telephone, email,
          createdOn: new Date( Date.now()).toISOString()
       };
-      this.budgetSignal.update((budgets) => [...budgets, newBudget]);
+      this.budgetSignal.update(( budgets) => [...budgets, newBudget]);
    }
 
    calculateTotal(items: Item[]): number {
